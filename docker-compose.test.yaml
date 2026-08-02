@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.e2e
+    container_name: api-e2e
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: test
+      PORT: 3000
+      MONGO_URI: mongodb://mongodb:27017/test_db
+      JWT_SECRET: e2e-jwt-secret
+      JWT_EXPIRES_IN: 7d
+    command: sh -c "npx yarn test:e2e"
+    depends_on:
+      - mongodb
+       
+  mongodb:
+    image: mongo:8
+    container_name: mongodb-e2e
+    command: ["mongod", "--quiet"]
+    environment:
+      MONGO_INITDB_DATABASE: test_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_e2e_data:/data/db
+    attach: false
+    logging:
+      driver: "none"
+   
+volumes:
+  mongodb_e2e_data:

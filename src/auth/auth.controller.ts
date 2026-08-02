@@ -3,12 +3,14 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Injectable,
   Post,
   Res,
 } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
-import { LoginDto, RegisterDTO } from './dto/login.dto';
+import { LoginDto, RegisterDTO } from './dto/auth.dto';
 import type { Response } from 'express';
+@Injectable()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

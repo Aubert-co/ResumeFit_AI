@@ -6,7 +6,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { RegisterDTO } from 'src/auth/dto/login.dto';
+import { RegisterDTO } from '../../auth/dto/auth.dto';
 import { isMongoError } from '../../commom/guards/error.guard';
 
 export class UsersRepository {
@@ -33,7 +33,7 @@ export class UsersRepository {
       }
 
       throw new InternalServerErrorException(
-        'An unexpected error occurred while creating user',
+        'An unexpected error occurred while creating the user.',
       );
     }
   }

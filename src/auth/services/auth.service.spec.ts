@@ -4,7 +4,7 @@ import { UsersRepository } from '../../users/repository/users.repository';
 import { PinoLogger } from 'nestjs-pino';
 import { JwtTokenService } from './jwt.service';
 import bcrypt from 'bcrypt';
-import { RegisterDTO } from '../dto/login.dto';
+import { RegisterDTO } from '../dto/auth.dto';
 describe('AuthService', () => {
   let service: AuthService;
 

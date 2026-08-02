@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { LoginDto, RegisterDTO } from '../dto/login.dto';
+import { LoginDto, RegisterDTO } from '../dto/auth.dto';
 import bcrypt from 'bcrypt';
 import { PinoLogger } from 'nestjs-pino';
 import { loggerFactory } from '../../commom/loggerFactory';
@@ -42,6 +42,18 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
     const access_token = await this.jwtService.generateAccessToken(user);
+
+   this.logger.info(
+    loggerFactory({
+      action: 'user login',
+      method: 'userLogin',
+      data: {
+        user: user.name,
+        id: user.id,
+      },
+      message: 'User logged in successfully',
+    }),
+    );
     return {
       access_token,
       user: {

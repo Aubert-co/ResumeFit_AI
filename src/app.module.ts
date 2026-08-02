@@ -5,10 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { DocumentModule } from './document/document.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema, User } from './users/schemas/user.schema';
 import { LoggerModule } from 'nestjs-pino';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { HttpExceptionFilter } from './commom/filters/http-exception.filter';
 
 @Module({
@@ -16,22 +14,7 @@ import { HttpExceptionFilter } from './commom/filters/http-exception.filter';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    JwtModule.registerAsync({
-      global: true,
-      inject: [],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '7d',
-        },
-      }),
-    }),
-    MongooseModule.forFeature([
-      {
-        schema: UserSchema,
-        name: User.name,
-      },
-    ]),
+    MongooseModule.forRoot(process.env.MONGO_URI!),
     LoggerModule.forRoot({
       pinoHttp: {
         transport: {

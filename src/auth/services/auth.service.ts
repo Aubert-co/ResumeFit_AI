@@ -41,7 +41,11 @@ export class AuthService {
       );
       throw new UnauthorizedException('Invalid email or password');
     }
-    const access_token = await this.jwtService.generateAccessToken(user);
+    
+    const access_token = await this.jwtService.generateAccessToken({
+      email:user.email,
+      id:user._id
+    });
 
    this.logger.info(
     loggerFactory({

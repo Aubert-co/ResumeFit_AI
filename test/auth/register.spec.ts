@@ -34,7 +34,10 @@ describe('/auth/register', () => {
 
     await userModel.deleteMany({});
   });
-
+  afterAll(async()=>{
+    await userModel.deleteMany({})
+    await app.close()
+  })
   it('should create a new user successfully', async() => {
     const response = await request(app.getHttpServer())
       .post('/auth/register')
